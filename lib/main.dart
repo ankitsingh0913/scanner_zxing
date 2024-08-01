@@ -1,8 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:scanner_zxing/camera_screen_for_test.dart';
-import 'camera_screen.dart';
-import 'camera_screen2.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

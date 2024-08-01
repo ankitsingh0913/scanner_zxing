@@ -20,7 +20,7 @@ class _CameraScreenTestState extends State<CameraScreenTest> {
   late Future<void> _initializeControllerFuture;
   Timer? _timer;
   bool isRecording = false;
-  bool isProcessingImage = false; // Add this flag
+  bool isProcessingImage = false;
   List<img.Image> images = [];
   List<String> qrCodes = [];
   List<dynamic> qrResults = [];
@@ -49,17 +49,18 @@ class _CameraScreenTestState extends State<CameraScreenTest> {
       isRecording = true;
     });
     _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
-      if (isProcessingImage) return; // Skip if an image is already being processed
+      if (isProcessingImage) return;
       try {
         if (_controller.value.isInitialized) {
-          isProcessingImage = true; // Set the flag before taking the picture
+          isProcessingImage = true;
           await _controller.setFlashMode(FlashMode.off);
           final image = await _controller.takePicture();
           final bytes = await image.readAsBytes();
-          await processImage(bytes); // Wait for the image to be processed
-          isProcessingImage = false; // Reset the flag after processing
+          await processImage(bytes);
+          isProcessingImage = false;
         }
       } catch (e) {
+
         print(e);
         isProcessingImage = false; // Reset the flag if there's an error
       }
@@ -83,8 +84,10 @@ class _CameraScreenTestState extends State<CameraScreenTest> {
           images.add(resized);
         });
 
-        final barcodeResult = await BarcodeCapture(image: resized.getBytes()).barcodes.first.rawValue; // Use MobileScanner to detect the barcode
+        final barcodeResult = await BarcodeCapture(image: resized.getBytes()).barcodes.first.rawValue;
         if (barcodeResult != null) {
+
+          print("QR Detected");
           setState(() {
             qrResults.add(resized);
           });
